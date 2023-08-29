@@ -11,6 +11,7 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
+    container: node:16
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       MONGODB_CLUSTER_ADDRESS: cluster0.rcounak.mongodb.net
@@ -28,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Output connection string
-        run: echo "${{env.MONGODB_CONNECTION_PROTOCOL}}://${{env.MONGODB_USERNAME}}:${{env.MONGODB_PASSWORD}}@${{env.MONGODB_CLUSTER_ADDRESS}}/?retryWrites=true&w=majority"
+        run: echo "${{ env.MONGODB_CONNECTION_PROTOCOL }}://${{env.MONGODB_USERNAME}}:${{env.MONGODB_PASSWORD}}@${{env.MONGODB_CLUSTER_ADDRESS}}/?retryWrites=true&w=majority"
       - name: Run server
         run: npm start & npx wait-on http://127.0.0.1:$PORT # requires MongoDB Atlas to accept requests from anywhere!
       - name: Run tests
